@@ -84,8 +84,8 @@ public class PlayerMovement : MonoBehaviour
             forwardMovement = Input.GetAxis("Vertical") * playerRunningSpeed;
             sidewaysMovement = Input.GetAxis("Horizontal") * playerRunningSpeed;
 
-            //if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
-                //DynamicCrosshair.changeSpread("run");
+            if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
+                DynamicCrosshair.changeSpread("run");
         }
         //Walking
         else if(cc.isGrounded)
@@ -93,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
             forwardMovement = Input.GetAxis("Vertical") * playerWalkingSpeed;
             sidewaysMovement = Input.GetAxis("Horizontal") * playerWalkingSpeed;
 
-            //DynamicCrosshair.changeSpread("walk");
+            DynamicCrosshair.changeSpread("walk");
         }
         //Jumping
         verticalMovement += Physics.gravity.y * Time.deltaTime;
@@ -110,8 +110,8 @@ public class PlayerMovement : MonoBehaviour
         {
             playerRotation = cc.transform.rotation;
         }
-        //else
-            //DynamicCrosshair.changeSpread("jump");
+        else
+            DynamicCrosshair.changeSpread("jump");
 
         cc.Move(playerRotation * playerMovement * Time.deltaTime);
     }

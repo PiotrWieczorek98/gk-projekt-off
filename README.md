@@ -19,9 +19,9 @@
 6. __If you have some problems with versions of files after that, that's your problem :).__
 
 ## Things to do:
-- [] Create menu.
-- [] Create scenes.
-     - [] Start scene.
-     - [] Scenes in between.
-     - [] Final scene.
-- [] Create key, to look for.
+- [ ] Create menu.
+- [ ] Create scenes.
+     - [ ] Start scene.
+     - [ ] Scenes in between.
+     - [ ] Final scene.
+- [ ] Create key, to look for.

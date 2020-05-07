@@ -12,6 +12,8 @@ public class BulletScript : MonoBehaviour {
 	public float minDestroyTime;
 	[Tooltip("Maximum time after impact that the bullet is destroyed")]
 	public float maxDestroyTime;
+	[Tooltip("How much damage the bullet deals")]
+	public float damage = 1;
 
 	[Header("Impact Effect Prefabs")]
 	public Transform [] bloodImpactPrefabs;
@@ -40,8 +42,8 @@ public class BulletScript : MonoBehaviour {
 			Destroy (gameObject);
 		}
 
-		//If bullet collides with "Blood" tag
-		if (collision.transform.tag == "Blood") 
+		//If bullet collides with "Enemy" tag
+		if (collision.transform.tag == "Enemy" && this.gameObject.layer != LayerMask.NameToLayer("Enemy")) 
 		{
 			//Instantiate random impact prefab from array
 			Instantiate (bloodImpactPrefabs [Random.Range 
@@ -49,6 +51,17 @@ public class BulletScript : MonoBehaviour {
 				Quaternion.LookRotation (collision.contacts [0].normal));
 			//Destroy bullet object
 			Destroy(gameObject);
+			
+			// Deal damage
+			collision.transform.SendMessage("gotHit", damage, SendMessageOptions.DontRequireReceiver);
+
+		}
+
+		//If bullet collides with "Player" tag
+		if (collision.transform.tag == "Player" && this.gameObject.layer != LayerMask.NameToLayer("Player"))
+		{
+			// Deal damage
+			collision.transform.SendMessage("gotHit", damage, SendMessageOptions.DontRequireReceiver);
 		}
 
 		//If bullet collides with "Metal" tag

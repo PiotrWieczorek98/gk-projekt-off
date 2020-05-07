@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
+
 public class EnemyStates : MonoBehaviour
 {
     [HideInInspector] public AlertState alertState;
@@ -20,19 +21,24 @@ public class EnemyStates : MonoBehaviour
     public int meleeRange;
     public int shootDamage;
     public int meleeDamage;
+    public float rotateSpeed;
 
-    public GameObject bullet;
-    public float bulletSpeed;
+    public Transform bulletPrefab;
+    public float bulletForce;
+    public float bulletDamage = 1;
     public float shotDelay;
     public float meleeDelay;
+    public Transform bulletSpawnPoint;
 
     public LayerMask raycastMask;
     public Transform chaseTarget;
     public Transform[] waypoints;
     public Transform vision;
 
-    AudioSource source;
-    public AudioClip spotted;
+    public AudioSource source;
+    public AudioClip spottedSound;
+    public AudioClip shotSound;
+
     [HideInInspector] public bool isSpotted = false;
     void Awake()
     {
@@ -68,23 +74,27 @@ public class EnemyStates : MonoBehaviour
 
     public bool enemySpotted()
     {
-        Vector3 direction = GameObject.FindGameObjectWithTag("Player").transform.position - transform.position;
+        Vector3 direction = GameObject.FindGameObjectWithTag("Player").transform.position - vision.position;
+
         float angle = Vector3.Angle(direction, vision.forward);
 
-        if(angle < fov * 0.5f)
+        if (angle < fov * 0.5f)
         {
-            RaycastHit hit;
-            if(Physics.Raycast(vision.transform.position, direction.normalized, out hit, visionRange ,raycastMask))
+
+            RaycastHit hitinfo;
+            if (Physics.Raycast(vision.position, direction.normalized, out hitinfo, visionRange, raycastMask))
             {
-                if(hit.collider.CompareTag("Player"))
+                if (hitinfo.collider.CompareTag("Player"))
                 {
-                    chaseTarget = hit.transform;
-                    targetLastKnownPosition = hit.transform.position;
+
+                    chaseTarget = hitinfo.transform;
+                    targetLastKnownPosition = hitinfo.transform.position;
 
                     if(source.isPlaying == false && isSpotted == false)
                     {
-                        source.PlayOneShot(spotted);
+                        source.PlayOneShot(spottedSound);
                         isSpotted = true;
+
                     }
 
                     return true;

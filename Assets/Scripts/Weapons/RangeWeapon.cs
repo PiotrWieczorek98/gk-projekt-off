@@ -2,10 +2,12 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class HandgunScriptLPFP : MonoBehaviour {
+public class RangeWeapon: MonoBehaviour 
+{
 
+	[Header("Animator")]
 	//Animator component attached to weapon
-	Animator anim;
+	public Animator anim;
 
 	[Header("Gun Camera")]
 	//Main gun camera
@@ -29,6 +31,11 @@ public class HandgunScriptLPFP : MonoBehaviour {
 	public Sprite gunIcon;
 	[Tooltip("Name of the object shown in the game UI.")]
 	public Image HUDIcon;
+
+	[Header("Gun typle")]
+	public bool automaticWeapon = false;
+	public float fireRate = 0.2f;
+	private float nextFire = 0.0f;
 
 	//Iron sights camera fov
 	[Range(5, 40)]
@@ -88,6 +95,8 @@ public class HandgunScriptLPFP : MonoBehaviour {
 	//Bullet
 	[Tooltip("How much force is applied to the bullet when shooting.")]
 	public float bulletForce = 400;
+	[Tooltip("How much damage the bullet deals")]
+	public float bulletDamage = 1;
 
 	[Header("Muzzleflash Settings")]
 	public bool randomMuzzleflash = false;
@@ -99,9 +108,7 @@ public class HandgunScriptLPFP : MonoBehaviour {
 
 	private int randomMuzzleflashValue;
 
-	public bool enableMuzzleflash = true;
 	public ParticleSystem muzzleParticles;
-	public bool enableSparks = true;
 	public ParticleSystem sparkParticles;
 	public int minSparkEmission = 1;
 	public int maxSparkEmission = 7;
@@ -111,10 +118,7 @@ public class HandgunScriptLPFP : MonoBehaviour {
 	public float lightDuration = 0.02f;
 
 	[Header("Audio Source")]
-	//Main audio source
 	public AudioSource audioSource;
-	//Audio source used for shoot sound
-	public AudioSource shootAudioSource;
 
 	[Header("UI Components")]
 	public Text currentWeaponText;
@@ -146,7 +150,6 @@ public class HandgunScriptLPFP : MonoBehaviour {
 	public class soundClips
 	{
 		public AudioClip shootSound;
-		public AudioClip silencerShootSound;
 		public AudioClip takeOutSound;
 		public AudioClip reloadSoundOutOfAmmo;
 		public AudioClip reloadSoundAmmoLeft;
@@ -156,7 +159,8 @@ public class HandgunScriptLPFP : MonoBehaviour {
 
 	private bool soundHasPlayed = false;
 
-	private void Awake () 
+
+	private void Start () 
 	{
 		//Set the animator component
 		anim = GetComponent<Animator>();
@@ -164,15 +168,6 @@ public class HandgunScriptLPFP : MonoBehaviour {
 		//Set current ammo to total ammo value
 		ammoInMag = clipSize;
 
-		muzzleflashLight.enabled = false;
-
-		//enable ironsights renderer
-		ironSightsRenderer.GetComponent
-		<SkinnedMeshRenderer> ().enabled = true;
-	}
-
-	private void Start () 
-	{
 		//Save the weapon name
 		storedWeaponName = weaponName;
 		//Get weapon name from string to text
@@ -184,38 +179,12 @@ public class HandgunScriptLPFP : MonoBehaviour {
 		initialSwayPosition = transform.localPosition;
 
 		//Set the shoot sound to audio source
-		shootAudioSource.clip = SoundClips.shootSound;
-	}
+		audioSource.clip = SoundClips.shootSound;
 
-	private void LateUpdate () 
-	{
-		//Weapon sway
-		if (weaponSway == true) 
-		{
-			float movementX = -Input.GetAxis ("Mouse X") * swayAmount;
-			float movementY = -Input.GetAxis ("Mouse Y") * swayAmount;
-			//Clamp movement to min and max values
-			movementX = Mathf.Clamp 
-				(movementX, -maxSwayAmount, maxSwayAmount);
-			movementY = Mathf.Clamp 
-				(movementY, -maxSwayAmount, maxSwayAmount);
-			//Lerp local pos
-			Vector3 finalSwayPosition = new Vector3 
-				(movementX, movementY, 0);
-			transform.localPosition = Vector3.Lerp 
-				(transform.localPosition, finalSwayPosition + 
-				initialSwayPosition, Time.deltaTime * swaySmoothValue);
-		}
-
-
-		// Set icon
-		HUDIcon.sprite = gunIcon;
-		currentWeaponText.text = storedWeaponName.ToString();
-		currentAmmoText.text = ammoInMag.ToString();
-		storageAmmoText.text = ammoInStorage.ToString();
 	}
 	
-	private void Update () {
+	private void Update () 
+	{
 
 		//Aiming
 		//Toggle camera FOV when right click is held down
@@ -275,30 +244,29 @@ public class HandgunScriptLPFP : MonoBehaviour {
 			if (autoReload == true && !isReloading) 		
 				Reload();	
 				
-			//Set slider back
-			anim.SetBool ("Out Of Ammo Slider", true);
-			//Increase layer weight for blending to slider back pose
-			anim.SetLayerWeight (1, 1.0f);
 		} 
 		else 
 		{
 			//Toggle bool
 			outOfAmmo = false;
-			//anim.SetBool ("Out Of Ammo", false);
-			anim.SetLayerWeight (1, 0.0f);
 		}
 
 		//Shooting 
-		if (Input.GetMouseButtonDown (0) && !outOfAmmo && !isReloading) 
+		if (!outOfAmmo && !isReloading &&
+			(!automaticWeapon && Input.GetMouseButtonDown(0) ||
+			(automaticWeapon && Input.GetMouseButton(0))) &&
+			Time.time > nextFire)
 		{
+
+			nextFire = Time.time + fireRate;
 			anim.Play ("Fire", 0, 0f);
 				
 			//Remove 1 bullet from ammo
 			ammoInMag -= 1;
 
 			// Play audio
-			shootAudioSource.clip = SoundClips.shootSound;
-			shootAudioSource.Play ();
+			audioSource.clip = SoundClips.shootSound;
+			audioSource.Play ();
 
 			//Light flash start
 			StartCoroutine(MuzzleFlashLight());
@@ -308,43 +276,23 @@ public class HandgunScriptLPFP : MonoBehaviour {
 				anim.Play ("Fire", 0, 0f);
 				muzzleParticles.Emit (1);
 
-				if (enableSparks == true) 
-				{
-					//Emit random amount of spark particles
-					sparkParticles.Emit (Random.Range (1, 6));
-				}
+				//Emit random amount of spark particles
+				sparkParticles.Emit (Random.Range (1, 6));
+
 			} 
 			else //if aiming
 			{
 				anim.Play ("Aim Fire", 0, 0f);
 					
-				//If random muzzle is false
-				if (!randomMuzzleflash) 
-				{
-					muzzleParticles.Emit (1);
-				} 
-				else if (randomMuzzleflash == true) 
-				{
-					//Only emit if random value is 1
-					if (randomMuzzleflashValue == 1) 
-					{
-						if (enableSparks == true) 
-						{
-							//Emit random amount of spark particles
-							sparkParticles.Emit (Random.Range (1, 6));
-						}
-						if (enableMuzzleflash == true) 
-						{
-							muzzleParticles.Emit (1);
-							//Light flash start
-							StartCoroutine (MuzzleFlashLight ());
-						}
-					}
-				}
+				//Emit random amount of spark particles
+				sparkParticles.Emit (Random.Range (1, 6));
+				//Light flash start
+				StartCoroutine (MuzzleFlashLight ());
+
 			}
 				
 			//Spawn bullet at bullet spawnpoint
-			var bullet = (Transform)Instantiate (
+			var bullet = Transform.Instantiate (
 				Prefabs.bulletPrefab,
 				Spawnpoints.bulletSpawnPoint.transform.position,
 				Spawnpoints.bulletSpawnPoint.transform.rotation);
@@ -353,6 +301,11 @@ public class HandgunScriptLPFP : MonoBehaviour {
 			bullet.GetComponent<Rigidbody>().velocity = 
 			bullet.transform.forward * bulletForce;
 
+			// Add values
+			bullet.tag = "Bullet";
+			bullet.gameObject.layer = LayerMask.NameToLayer("Player");
+			bullet.GetComponent<BulletScript>().damage = bulletDamage;
+
 			//Spawn casing prefab at spawnpoint
 			Instantiate (Prefabs.casingPrefab, 
 				Spawnpoints.casingSpawnPoint.transform.position, 
@@ -360,17 +313,9 @@ public class HandgunScriptLPFP : MonoBehaviour {
 		}
 
 		//Reload 
-		if (Input.GetKeyDown (KeyCode.R) && !isReloading) 
-		{
-			//Reload
+		if (Input.GetKeyDown (KeyCode.R) && !isReloading && ammoInMag != clipSize) 
 			Reload ();
 
-			if (!hasStartedSliderBack) 
-			{
-				hasStartedSliderBack = true;
-				StartCoroutine (HandgunSliderBackDelay());
-			}
-		}
 
 		//Walking when pressing down WASD keys
 		if (Input.GetKey (KeyCode.W) && !isRunning || 
@@ -397,17 +342,34 @@ public class HandgunScriptLPFP : MonoBehaviour {
 			anim.SetBool ("Run", false);
 	}
 
-	private IEnumerator HandgunSliderBackDelay () 
+	private void LateUpdate()
 	{
-		//Wait set amount of time
-		yield return new WaitForSeconds (sliderBackTimer);
-		//Set slider back
-		anim.SetBool ("Out Of Ammo Slider", false);
-		//Increase layer weight for blending to slider back pose
-		anim.SetLayerWeight (1, 0.0f);
+		//Weapon sway
+		if (weaponSway == true)
+		{
+			float movementX = -Input.GetAxis("Mouse X") * swayAmount;
+			float movementY = -Input.GetAxis("Mouse Y") * swayAmount;
+			//Clamp movement to min and max values
+			movementX = Mathf.Clamp
+				(movementX, -maxSwayAmount, maxSwayAmount);
+			movementY = Mathf.Clamp
+				(movementY, -maxSwayAmount, maxSwayAmount);
+			//Lerp local pos
+			Vector3 finalSwayPosition = new Vector3
+				(movementX, movementY, 0);
+			transform.localPosition = Vector3.Lerp
+				(transform.localPosition, finalSwayPosition +
+				initialSwayPosition, Time.deltaTime * swaySmoothValue);
+		}
 
-		hasStartedSliderBack = false;
+
+		// Set icon
+		HUDIcon.sprite = gunIcon;
+		currentWeaponText.text = storedWeaponName.ToString();
+		currentAmmoText.text = ammoInMag.ToString();
+		storageAmmoText.text = ammoInStorage.ToString();
 	}
+
 
 	//Reload
 	private void Reload () 
@@ -431,6 +393,11 @@ public class HandgunScriptLPFP : MonoBehaviour {
 			}
 		}
 
+	}
+
+	public void addAmmo(int amount)
+	{
+		ammoInStorage += amount;
 	}
 
 	//Show light when shooting, then disable after set amount of time

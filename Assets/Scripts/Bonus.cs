@@ -6,9 +6,9 @@ public class Bonus : MonoBehaviour
     public bool isApBonus;
     public float bonusValue;
     public AudioClip pickUpSound;
+    public FlashScreen flashScreen;
 
     PlayerStats ps;
-    FlashScreen fs;
     AudioSource source;
 
     void OnTriggerEnter(Collider other)
@@ -19,23 +19,23 @@ public class Bonus : MonoBehaviour
 
             source = other.GetComponent<AudioSource>();
             ps = other.GetComponent<PlayerStats>();
-            fs = ps.flashScreen;
 
             if (isHpBonus && !ps.isHPFull())
             {
                 ps.addHP(bonusValue);
+                flashScreen.flash("green");
                 isUsed = true;
             }
             if (isApBonus && !ps.isAPFull())
             {
                 ps.addAP(bonusValue);
+                flashScreen.flash("blue");
                 isUsed = true;
             }
 
             if (isUsed)
             {
                 source.PlayOneShot(pickUpSound);
-                fs.flash("yellow");
                Destroy(this.gameObject);
             }
         }

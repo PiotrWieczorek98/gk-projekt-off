@@ -9,6 +9,7 @@ TagManager:
   - UICamera
   - RaycastWeapon
   - ProjectileWeapon
+  - Bullet
   layers:
   - Default
   - TransparentFX

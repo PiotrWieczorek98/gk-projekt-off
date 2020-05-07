@@ -11,7 +11,6 @@ public class Enemy : MonoBehaviour
     BoxCollider bc;
     Rigidbody rb;
     GameObject vision;
-    DynamicMultiDirView dbc;
     Animator anim;
     AudioSource source;
     public AudioClip death;
@@ -23,7 +22,6 @@ public class Enemy : MonoBehaviour
         es = GetComponent<EnemyStates>();
         nma = GetComponent<NavMeshAgent>();
         bc = GetComponent<BoxCollider>();
-        dbc = GetComponent<DynamicMultiDirView>();
         rb = GetComponent<Rigidbody>();
         vision = transform.Find("Vision").gameObject;
         anim = GetComponent<Animator>();
@@ -40,9 +38,8 @@ public class Enemy : MonoBehaviour
                 isDead = true;
                 es.enabled = false;
                 nma.enabled = false;
-                dbc.enabled = false;
 
-                anim.Play("Death");
+                //anim.Play("Death");
                 source.PlayOneShot(death);
 
                 bc.center = new Vector3(0, -0.8f, 0);

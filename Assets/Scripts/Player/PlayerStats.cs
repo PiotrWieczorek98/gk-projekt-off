@@ -11,19 +11,15 @@ public class PlayerStats : MonoBehaviour
     public FlashScreen flashScreen;
     public int oofCounter = 5;
 
-    int numberOfProjectileWeapons;
-    int numberOfRaycastWeapons;
-    int hitsRemaining;
+    int numberOfWeapons;
     float currentHP;
     float currentAP;
     AudioSource source;
-    RaycastWeapon[] raycastWeapons;
-    ProjectileWeapon[] projectileWeapons;
+    RangeWeapon[] weapons;
     void Start()
     {
         currentHP = maxHP;
         currentAP = 0;
-        hitsRemaining = oofCounter;
         HpCounter.text = currentHP.ToString();
         ApCounter.text = currentAP.ToString();
         source = GetComponent<AudioSource>();
@@ -34,27 +30,22 @@ public class PlayerStats : MonoBehaviour
             weapon.gameObject.SetActive(true);
         }
 
-        numberOfProjectileWeapons = GameObject.FindGameObjectsWithTag("ProjectileWeapon").Length;
-        numberOfRaycastWeapons = GameObject.FindGameObjectsWithTag("RaycastWeapon").Length;
+        numberOfWeapons = GameObject.FindGameObjectsWithTag("ProjectileWeapon").Length;
 
-        // wyłączenie pozostałych broni
+
+        weapons = new RangeWeapon[numberOfWeapons];
+        for (int i = 0; i < numberOfWeapons; i++)
+        {
+            weapons[i] = GameObject.Find("Weapons").transform.GetChild(i).GetComponent<RangeWeapon>();
+        }
+
+        // disable the rest
         int k = 0;
         foreach (Transform weapon in GameObject.Find("Weapons").transform)
         {
-            if(k != 0) 
+            if (k != 0)
                 weapon.gameObject.SetActive(false);
             k++;
-        }
-
-        raycastWeapons = new RaycastWeapon[numberOfRaycastWeapons];
-        projectileWeapons = new ProjectileWeapon[numberOfProjectileWeapons];
-        for (int i = 0; i < numberOfRaycastWeapons; i++)
-        {
-            raycastWeapons[i] = GameObject.Find("Weapons").transform.GetChild(i).GetComponent<RaycastWeapon>();
-        }
-        for (int i = 0; i < numberOfProjectileWeapons; i++)
-        {
-            projectileWeapons[i] = GameObject.Find("Weapons").transform.GetChild(numberOfRaycastWeapons + i).GetComponent<ProjectileWeapon>();
         }
     }
 
@@ -70,14 +61,6 @@ public class PlayerStats : MonoBehaviour
     {
         //Flash screen with red color
         flashScreen.flash("red");
-
-        if (hitsRemaining > 0)
-            hitsRemaining--;
-        else if (hitsRemaining <= 0)
-        {
-            source.PlayOneShot(hitSound);
-            hitsRemaining = oofCounter;
-        }
 
         if(currentAP > 0)
         {
@@ -115,26 +98,18 @@ public class PlayerStats : MonoBehaviour
         return false;
     }
 
-    public RaycastWeapon getRaycastWeapon(string name)
+    public RangeWeapon getWeapon(string name)
     {
-        if (name == "pistol")
+        if (name == "Pistol")
         {
-            return raycastWeapons[0];
+            return weapons[0];
         }
-        else if (name == "shotgun")
+        else if (name == "Assault Rifle")
         {
-            return raycastWeapons[1];
+            return weapons[1];
         }
 
         return null;
     }
 
-    public ProjectileWeapon getProjectileWeapon(string name)
-    {
-        if (name == "rocket launcher")
-        {
-            return projectileWeapons[0];
-        }
-        return null;
-    }
 }

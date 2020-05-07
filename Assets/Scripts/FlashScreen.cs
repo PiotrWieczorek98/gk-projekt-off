@@ -3,14 +3,18 @@ using UnityEngine.UI;
 
 public class FlashScreen : MonoBehaviour
 {
-    Image flashScreen;
+    public Image flashScreen;
     Color yellow;
     Color red;
+    Color green;
+    Color blue;
+
     void Start()
     {
-        flashScreen = GetComponent<Image>();
         red = new Color(1, 0, 0, 0.6f);
         yellow = new Color(1, 1, 0, 0.6f);
+        green = new Color(0, 1, 0, 0.6f);
+        blue = new Color(0, 0, 1, 0.6f);
     }
 
     void Update()
@@ -28,5 +32,9 @@ public class FlashScreen : MonoBehaviour
             flashScreen.color = red;
         else if (colorName == "yellow")
             flashScreen.color = yellow;
+        else if (colorName == "green")
+            flashScreen.color = green;
+        else if (colorName == "blue")
+            flashScreen.color = blue;
     }
 }

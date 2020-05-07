@@ -15,32 +15,44 @@ public class AttackState : IEnemyAI
     {
         attackTimer += Time.deltaTime;
         distance = Vector3.Distance(enemy.chaseTarget.transform.position, enemy.transform.position);
-        if(distance > enemy.meleeRange && enemy.meleeOnly == true)
-        {
+
+
+
+        if ((distance > enemy.shootRange && enemy.meleeOnly == false) || 
+            (distance > enemy.meleeRange && enemy.meleeOnly == true))
             ToChaseState();
-        }
-        else if(distance > enemy.shootRange && enemy.meleeOnly == false)
-        {
-            ToChaseState();
-        }
+        
         watch();
 
-        if(distance<=enemy.shootRange && distance > enemy.meleeRange && enemy.meleeOnly == false && attackTimer >= enemy.shotDelay)
+        if(distance <= enemy.shootRange && distance > enemy.meleeRange && enemy.meleeOnly == false && attackTimer >= enemy.shotDelay)
         {
             attack(true);
             attackTimer = 0;
         }
-        else if(distance <=enemy.meleeRange && attackTimer >= enemy.meleeDelay)
+        else if(distance <= enemy.meleeRange && attackTimer >= enemy.meleeDelay)
         {
             attack(false);
             attackTimer = 0;
         }
+
+        // Rotate to player
+        float singleStep = enemy.rotateSpeed * Time.deltaTime;
+
+        // Rotate the forward vector towards the target direction by one step
+        Vector3 targetDirection = enemy.chaseTarget.position - enemy.transform.position;
+        Vector3 newDirection = Vector3.RotateTowards(enemy.transform.forward, targetDirection, singleStep, 0.0f);
+
+        // Draw a ray pointing at our target in
+        Debug.DrawRay(enemy.transform.position, newDirection * 10, Color.red);
+
+        // Calculate a rotation a step closer to the target and applies rotation to this object
+        enemy.transform.rotation = Quaternion.LookRotation(newDirection);
     }
 
     void attack(bool shoot)
     {
         //Attack sprite
-        enemy.anim.Play("Attack");
+        //enemy.anim.Play("Attack");
 
         if (shoot == false)
         {
@@ -48,9 +60,21 @@ public class AttackState : IEnemyAI
         }
         else
         {
-           GameObject bullet = GameObject.Instantiate(enemy.bullet, enemy.transform.Find("Spawn Point").position, Quaternion.identity);
-            bullet.GetComponent<Bullet>().speed = enemy.bulletSpeed;
-            bullet.GetComponent<Bullet>().damage = enemy.shootDamage;
+            enemy.source.PlayOneShot(enemy.shotSound);
+
+            var bullet = Transform.Instantiate(
+                enemy.bulletPrefab,
+                enemy.bulletSpawnPoint.transform.position,
+                enemy.bulletSpawnPoint.transform.rotation);
+
+            //Add velocity to the bullet
+            bullet.GetComponent<Rigidbody>().velocity =
+            bullet.transform.forward * enemy.bulletForce;
+
+            // Add values
+            bullet.tag = "Bullet";
+			bullet.gameObject.layer = LayerMask.NameToLayer("Enemy");
+            bullet.GetComponent<BulletScript>().damage = enemy.bulletDamage;
         }
     }
 
@@ -60,11 +84,11 @@ public class AttackState : IEnemyAI
             ToAlertState();
     }
 
+
     public void OnTriggerEnter(Collider enemy)
     {
 
     }
-
 
 
 

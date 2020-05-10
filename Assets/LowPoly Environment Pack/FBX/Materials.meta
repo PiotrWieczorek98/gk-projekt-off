@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Assets/Prefabs.meta
-guid: a6f4c328170b32740b942aa363312335
-=======
-guid: 71d4a546db3db164989137eb5ebe472c
->>>>>>> 1d78a6144eb698af53b49931c23dc4e7302abeca:Assets/LowPoly Environment Pack/FBX/Materials.meta
+guid: f566a394e7170ce418438aed686436b9
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

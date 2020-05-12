@@ -51,8 +51,7 @@ public class AttackState : IEnemyAI
 
     void attack(bool shoot)
     {
-        //Attack sprite
-        //enemy.anim.Play("Attack");
+        enemy.anim.SetBool("attack", true);
 
         if (shoot == false)
         {
@@ -82,6 +81,8 @@ public class AttackState : IEnemyAI
     {
         if (enemy.enemySpotted() == false)
             ToAlertState();
+        enemy.anim.SetBool("attack", false);
+
     }
 
 
@@ -89,8 +90,6 @@ public class AttackState : IEnemyAI
     {
 
     }
-
-
 
     public void ToPatrolState()
     {
@@ -103,9 +102,13 @@ public class AttackState : IEnemyAI
     public void ToAlertState()
     {
         enemy.currentState = enemy.alertState;
+        enemy.anim.SetBool("attack", false);
+
     }
     public void ToChaseState()
     {
         enemy.currentState = enemy.chaseState;
+        enemy.anim.SetBool("attack", false);
+
     }
 }

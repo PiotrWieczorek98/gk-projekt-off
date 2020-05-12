@@ -11,8 +11,8 @@ public class EnemyStates : MonoBehaviour
     [HideInInspector] public IEnemyAI currentState;
     [HideInInspector] public NavMeshAgent navMeshAgent;
     [HideInInspector] public Vector3 targetLastKnownPosition;
-    [HideInInspector] public Animator anim;
-
+    
+    public Animator anim;
     public bool meleeOnly = false;
     public float fov;
     public float stayAlertTime;
@@ -47,7 +47,6 @@ public class EnemyStates : MonoBehaviour
         patrolState = new PatrolState(this);
         chaseState = new ChaseState(this);
         navMeshAgent = GetComponent<NavMeshAgent>();
-        anim = GetComponent<Animator>();
         source = GetComponent<AudioSource>();
     }
 

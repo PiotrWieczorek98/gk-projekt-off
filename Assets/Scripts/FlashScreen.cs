@@ -8,6 +8,7 @@ public class FlashScreen : MonoBehaviour
     Color red;
     Color green;
     Color blue;
+    Color gold;
 
     void Start()
     {
@@ -15,6 +16,7 @@ public class FlashScreen : MonoBehaviour
         yellow = new Color(1, 1, 0, 0.6f);
         green = new Color(0, 1, 0, 0.6f);
         blue = new Color(0, 0, 1, 0.6f);
+        gold = new Color(0.83f, 0.68f, 0.21f, 1.0f);
     }
 
     void Update()
@@ -36,5 +38,7 @@ public class FlashScreen : MonoBehaviour
             flashScreen.color = green;
         else if (colorName == "blue")
             flashScreen.color = blue;
+        else if (colorName == "gold")
+            flashScreen.color = gold;
     }
 }

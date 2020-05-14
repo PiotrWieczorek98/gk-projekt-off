@@ -4,6 +4,8 @@ public class AttackState : IEnemyAI
 {
     EnemyStates enemy;
     float attackTimer;
+    float seriesTimer;
+    int bulletsCount;
     float distance;
 
 
@@ -16,23 +18,35 @@ public class AttackState : IEnemyAI
         attackTimer += Time.deltaTime;
         distance = Vector3.Distance(enemy.chaseTarget.transform.position, enemy.transform.position);
 
-
-
-        if ((distance > enemy.shootRange && enemy.meleeOnly == false) || 
-            (distance > enemy.meleeRange && enemy.meleeOnly == true))
+        if ((distance > enemy.attackSettings.shootRange && enemy.attackSettings.meleeOnly == false) || 
+            (distance > enemy.attackSettings.meleeRange && enemy.attackSettings.meleeOnly == true))
             ToChaseState();
         
         watch();
 
-        if(distance <= enemy.shootRange && distance > enemy.meleeRange && enemy.meleeOnly == false && attackTimer >= enemy.shotDelay)
+        if(distance <= enemy.attackSettings.shootRange && distance > enemy.attackSettings.meleeRange && 
+            enemy.attackSettings.meleeOnly == false && 
+            attackTimer >= enemy.attackSettings.shotDelay && 
+            bulletsCount < enemy.attackSettings.bulletsInSeries)
         {
             attack(true);
             attackTimer = 0;
+            bulletsCount++;
         }
-        else if(distance <= enemy.meleeRange && attackTimer >= enemy.meleeDelay)
+        else if(distance <= enemy.attackSettings.meleeRange && 
+            attackTimer >= enemy.attackSettings.meleeDelay)
         {
             attack(false);
             attackTimer = 0;
+        }
+        else if(bulletsCount >= enemy.attackSettings.bulletsInSeries)
+        {
+            seriesTimer += Time.deltaTime;
+            if(seriesTimer >= enemy.attackSettings.seriesDelay)
+            {
+                seriesTimer = 0;
+                bulletsCount = 0;
+            }
         }
 
         // Rotate to player
@@ -55,25 +69,33 @@ public class AttackState : IEnemyAI
 
         if (shoot == false)
         {
-            enemy.chaseTarget.SendMessage("gotHit", enemy.meleeDamage, SendMessageOptions.DontRequireReceiver);
+            enemy.chaseTarget.SendMessage("gotHit", enemy.attackSettings.meleeDamage, SendMessageOptions.DontRequireReceiver);
         }
         else
         {
             enemy.source.PlayOneShot(enemy.shotSound);
 
             var bullet = Transform.Instantiate(
-                enemy.bulletPrefab,
-                enemy.bulletSpawnPoint.transform.position,
-                enemy.bulletSpawnPoint.transform.rotation);
+                enemy.attackSettings.bulletPrefab,
+                enemy.attackSettings.bulletSpawnPoint.transform.position,
+                enemy.attackSettings.bulletSpawnPoint.transform.rotation);
+
+            //Bullet spread
+            float strayFactor = enemy.attackSettings.bulletSpread;
+            var randomNumberX = Random.Range(-strayFactor, strayFactor);
+            var randomNumberY = Random.Range(-strayFactor, strayFactor);
+            var randomNumberZ = Random.Range(-strayFactor, strayFactor);
+            bullet.transform.Rotate(randomNumberX, randomNumberY, randomNumberZ);
 
             //Add velocity to the bullet
             bullet.GetComponent<Rigidbody>().velocity =
-            bullet.transform.forward * enemy.bulletForce;
+            bullet.transform.forward * enemy.attackSettings.bulletForce;
 
-            // Add values
+
+            // Add attributes
             bullet.tag = "Bullet";
 			bullet.gameObject.layer = LayerMask.NameToLayer("Enemy");
-            bullet.GetComponent<BulletScript>().damage = enemy.bulletDamage;
+            bullet.GetComponent<BulletScript>().damage = enemy.attackSettings.bulletDamage;
         }
     }
 

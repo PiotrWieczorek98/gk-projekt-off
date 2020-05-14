@@ -9,7 +9,9 @@ public class PlayerStats : MonoBehaviour
     public Text ApCounter;
     public AudioClip hitSound;
     public FlashScreen flashScreen;
-    public int oofCounter = 5;
+
+    [HideInInspector]
+    public bool isAlive;
 
     int numberOfWeapons;
     float currentHP;
@@ -18,6 +20,7 @@ public class PlayerStats : MonoBehaviour
     RangeWeapon[] weapons;
     void Start()
     {
+        isAlive = true;
         currentHP = maxHP;
         currentAP = 0;
         HpCounter.text = currentHP.ToString();
@@ -75,6 +78,9 @@ public class PlayerStats : MonoBehaviour
         }
         else
             currentHP -= damage;
+
+        if (currentHP <= 0)
+            isAlive = false;
     }
 
     public void addHP(float value)

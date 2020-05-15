@@ -9,9 +9,10 @@ public class RangeWeapon: MonoBehaviour
 	//Animator component attached to weapon
 	public Animator anim;
 
-	[Header("Gun Camera")]
-	//Main gun camera
+	[Header("Cameras")]
+	//Cameras
 	public Camera gunCamera;
+	public Camera mainCamera;
 
 	[Header("Gun Camera Options")]
 	//How fast the camera field of view changes when aiming 
@@ -32,9 +33,10 @@ public class RangeWeapon: MonoBehaviour
 	[Tooltip("Name of the object shown in the game UI.")]
 	public Image HUDIcon;
 
-	[Header("Gun typle")]
+	[Header("Gun type")]
 	public bool automaticWeapon = false;
 	public float fireRate = 0.2f;
+	public float recoilStrength = 0.2f;
 	private float nextFire = 0.0f;
 
 	//Iron sights camera fov
@@ -61,7 +63,6 @@ public class RangeWeapon: MonoBehaviour
 	[Header("Weapon Settings")]
 
 	public float sliderBackTimer = 1.58f;
-	private bool hasStartedSliderBack;
 
 	//Eanbles auto reloading when out of ammo
 	[Tooltip("Enables auto reloading when out of ammo.")]
@@ -71,12 +72,9 @@ public class RangeWeapon: MonoBehaviour
 	//Check if reloading
 	private bool isReloading;
 
-	//Check if running
 	private bool isRunning;
-	//Check if aiming
 	private bool isAiming;
-	//Check if walking
-	private bool isWalking;
+	private bool isShooting = false;
 
 	//How much ammo is currently left
 	private int ammoInMag;
@@ -185,7 +183,6 @@ public class RangeWeapon: MonoBehaviour
 	
 	private void Update () 
 	{
-
 		//Aiming
 		//Toggle camera FOV when right click is held down
 		if(Input.GetButton("Fire2") && !isReloading && !isRunning) 
@@ -224,16 +221,6 @@ public class RangeWeapon: MonoBehaviour
 		//is currently playing
 		AnimationCheck ();
 
-		//Play knife attack 1 animation when Q key is pressed
-		if (Input.GetKeyDown (KeyCode.Q)) 
-		{
-			anim.Play ("Knife Attack 1", 0, 0f);
-		}
-		//Play knife attack 2 animation when F key is pressed
-		if (Input.GetKeyDown (KeyCode.F)) 
-		{
-			anim.Play ("Knife Attack 2", 0, 0f);
-		}
 
 		//If out of ammo
 		if (ammoInMag == 0) 
@@ -257,10 +244,9 @@ public class RangeWeapon: MonoBehaviour
 			(automaticWeapon && Input.GetMouseButton(0))) &&
 			Time.time > nextFire)
 		{
-
+			isShooting = true;
 			nextFire = Time.time + fireRate;
 			anim.Play ("Fire", 0, 0f);
-				
 			//Remove 1 bullet from ammo
 			ammoInMag -= 1;
 
@@ -310,6 +296,10 @@ public class RangeWeapon: MonoBehaviour
 			Instantiate (Prefabs.casingPrefab, 
 				Spawnpoints.casingSpawnPoint.transform.position, 
 				Spawnpoints.casingSpawnPoint.transform.rotation);
+		}
+		else
+		{
+			isShooting = false;
 		}
 
 		//Reload 
@@ -361,6 +351,21 @@ public class RangeWeapon: MonoBehaviour
 				(transform.localPosition, finalSwayPosition +
 				initialSwayPosition, Time.deltaTime * swaySmoothValue);
 		}
+
+		// Weapon recoil
+		if(isShooting)
+		{
+			var randomNumberX = Random.Range(-recoilStrength, 0);
+			var randomNumberY = Random.Range(-recoilStrength, recoilStrength);
+			var randomNumberZ = Random.Range(0, recoilStrength);
+
+			var player = GameObject.FindGameObjectWithTag("Player");
+			Quaternion rotation = gunCamera.transform.parent.localRotation;
+			rotation.x -= randomNumberX;
+			gunCamera.transform.parent.localRotation = rotation;
+			transform.parent.localRotation = rotation;
+		}
+
 
 
 		// Set icon

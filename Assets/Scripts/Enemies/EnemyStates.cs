@@ -19,10 +19,10 @@ public class EnemyStates : MonoBehaviour
     public int visionRange;
     public float rotateSpeed;
 
+
     [System.Serializable]
     public class AttackSettings
     {
-        [Header("Attack Settings")]
         public bool meleeOnly = false;
         public int shootRange;
         public int meleeRange;
@@ -82,6 +82,9 @@ public class EnemyStates : MonoBehaviour
 
     public bool enemySpotted()
     {
+        // Draw a ray
+        Debug.DrawRay(transform.position, transform.forward * 10, Color.red);
+
         Vector3 direction = GameObject.FindGameObjectWithTag("Player").transform.position - vision.position;
 
         float angle = Vector3.Angle(direction, vision.forward);

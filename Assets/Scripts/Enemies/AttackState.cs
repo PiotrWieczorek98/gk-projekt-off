@@ -56,9 +56,6 @@ public class AttackState : IEnemyAI
         Vector3 targetDirection = enemy.chaseTarget.position - enemy.transform.position;
         Vector3 newDirection = Vector3.RotateTowards(enemy.transform.forward, targetDirection, singleStep, 0.0f);
 
-        // Draw a ray pointing at our target in
-        Debug.DrawRay(enemy.transform.position, newDirection * 10, Color.red);
-
         // Calculate a rotation a step closer to the target and applies rotation to this object
         enemy.transform.rotation = Quaternion.LookRotation(newDirection);
     }

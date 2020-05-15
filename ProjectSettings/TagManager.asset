@@ -10,6 +10,9 @@ TagManager:
   - RaycastWeapon
   - ProjectileWeapon
   - Bullet
+  - Metal
+  - Dirt
+  - Concrete
   layers:
   - Default
   - TransparentFX

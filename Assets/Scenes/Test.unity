@@ -1106,7 +1106,7 @@ PrefabInstance:
     - target: {fileID: 4359730136123146697, guid: eaf05c9f49ce28a42ada8edf6c23930c,
         type: 3}
       propertyPath: recoilStrength
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4359730136123146697, guid: eaf05c9f49ce28a42ada8edf6c23930c,
         type: 3}
@@ -1118,6 +1118,11 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1878327732}
+    - target: {fileID: 4359730136572636754, guid: eaf05c9f49ce28a42ada8edf6c23930c,
+        type: 3}
+      propertyPath: recoilStrength
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8115735557750384662, guid: eaf05c9f49ce28a42ada8edf6c23930c,
         type: 3}
       propertyPath: mainCamera

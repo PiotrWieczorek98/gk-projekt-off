@@ -353,17 +353,15 @@ public class RangeWeapon: MonoBehaviour
 		}
 
 		// Weapon recoil
-		if(isShooting)
+		if (isShooting)
 		{
-			var randomNumberX = Random.Range(-recoilStrength, 0);
+			var randomNumberX = Random.Range(-recoilStrength * 2, 0);
 			var randomNumberY = Random.Range(-recoilStrength, recoilStrength);
-			var randomNumberZ = Random.Range(0, recoilStrength);
 
 			var player = GameObject.FindGameObjectWithTag("Player");
-			Quaternion rotation = gunCamera.transform.parent.localRotation;
-			rotation.x -= randomNumberX;
-			gunCamera.transform.parent.localRotation = rotation;
-			transform.parent.localRotation = rotation;
+			player.GetComponent<PlayerMovement>().rotation.x += randomNumberX;
+			player.GetComponent<PlayerMovement>().rotation.y += randomNumberY;
+
 		}
 
 

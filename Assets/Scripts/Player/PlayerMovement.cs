@@ -27,20 +27,10 @@ public class PlayerMovement : MonoBehaviour
     //How fast the player rotates when moving mouse
     [Tooltip("How fast the player rotates when moving mouse around")]
     public float normalLookSpeed = 2.0f;
-    private Vector2 rotation =
-        new Vector2(0, 0);
     //How fast the player rotates when moving mouse
     [Tooltip("How fast the player rotates when aiming downsights")]
     public float aimLookSpeed = 2.0f;
     [Header("Mouse Look Clamp X Rotation")]
-    //Clamp x rotation 
-    //Minimum x rotation value
-    [Tooltip("Minimum x rotation value (look up and down")]
-    public float minXValue = -20.0f;
-    //Maximum x rotation value
-    [Tooltip("Maximum x rotation value (look up and down")]
-    public float maxXValue = 20.0f;
-    float lookSpeed = 0f;
 
     float forwardMovement;
     float sidewaysMovement;
@@ -55,7 +45,10 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = cursor;
     }
 
-    
+
+    float lookSpeed = 0f;
+    [HideInInspector]
+    public Vector2 rotation = new Vector2(0, 0);
     void Update()
     {
         // Mouse look
@@ -71,12 +64,11 @@ public class PlayerMovement : MonoBehaviour
         //Rotate player on y axis based on mouse look speed
         transform.eulerAngles = new Vector2(0, rotation.y);
         //Clamp rotation on x axis to min and max values (prevents doing flips while standing)
-        rotation.x = Mathf.Clamp(rotation.x, minXValue, maxXValue);
+        rotation.x = Mathf.Clamp(rotation.x, -90, 90);
         // Rotate cameras
         mainCamera.transform.eulerAngles = new Vector2(rotation.x, rotation.y);
         //Rotate arms on the x axis (y axis already rotated by rotating player)
         arms.transform.localRotation = Quaternion.Euler(rotation.x, 0, 0);
-
 
         //Running
         if (Input.GetKey(KeyCode.LeftShift) && cc.isGrounded)

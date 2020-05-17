@@ -5,12 +5,28 @@ using UnityEngine;
 
 public class AnimateYAxis : MonoBehaviour
 {
-    public float transformSpeed = 0.1f;
-    public float yPoint = 2.0f;
+    public float transformSpeed = 0.001f;
+    public float yPoint = 0.0f;
+    public int moves = 0;
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(transform.position.x, (yPoint + Mathf.PingPong(Time.time * transformSpeed, 0.2f)), transform.position.z);
+        if(moves < 40)
+        {
+            yPoint = transform.position.y + transformSpeed;
+            moves++;
+        }
+        else if(moves < 80)
+        {
+            yPoint = transform.position.y - transformSpeed;
+            moves++;
+        }
+        else
+        {
+            moves = 0;
+        }
+        transform.position = new Vector3(transform.position.x, yPoint, transform.position.z);
+        //transform.position = new Vector3(transform.position.x, (yPoint + Mathf.PingPong(Time.time * transformSpeed, 0.2f)), transform.position.z);
     }
 }

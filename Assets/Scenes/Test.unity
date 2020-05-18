@@ -1270,6 +1270,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8373631215572453192, guid: eaf05c9f49ce28a42ada8edf6c23930c,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8373631215572453192, guid: eaf05c9f49ce28a42ada8edf6c23930c,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8373631215572453192, guid: eaf05c9f49ce28a42ada8edf6c23930c,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8373631215572453192, guid: eaf05c9f49ce28a42ada8edf6c23930c,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7076730511324995597, guid: eaf05c9f49ce28a42ada8edf6c23930c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1278,12 +1298,12 @@ PrefabInstance:
     - target: {fileID: 7076730511324995597, guid: eaf05c9f49ce28a42ada8edf6c23930c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.549
+      value: 0.462
       objectReference: {fileID: 0}
     - target: {fileID: 7076730511324995597, guid: eaf05c9f49ce28a42ada8edf6c23930c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.189
+      value: 0.315
       objectReference: {fileID: 0}
     - target: {fileID: 8153835831757547397, guid: eaf05c9f49ce28a42ada8edf6c23930c,
         type: 3}
@@ -1350,6 +1370,11 @@ PrefabInstance:
       propertyPath: flashlight
       value: 
       objectReference: {fileID: 450671881}
+    - target: {fileID: 8153835831005698020, guid: eaf05c9f49ce28a42ada8edf6c23930c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eaf05c9f49ce28a42ada8edf6c23930c, type: 3}
 --- !u!1001 &8628770106312256173

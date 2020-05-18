@@ -12,6 +12,8 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Arms Object")]
     public Transform arms;
+    [Header("Flashlight Object")]
+    public Transform flashlight;
     [Header("Cameras")]
     public Transform mainCamera;
     public Transform gunCamera;
@@ -69,6 +71,8 @@ public class PlayerMovement : MonoBehaviour
         mainCamera.transform.eulerAngles = new Vector2(rotation.x, rotation.y);
         //Rotate arms on the x axis (y axis already rotated by rotating player)
         arms.transform.localRotation = Quaternion.Euler(rotation.x, 0, 0);
+        // Rotate flashlight
+        flashlight.transform.localRotation = Quaternion.Euler(rotation.x, 0, 0);
 
         //Running
         if (Input.GetKey(KeyCode.LeftShift) && cc.isGrounded)

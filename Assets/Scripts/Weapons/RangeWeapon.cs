@@ -34,7 +34,9 @@ public class RangeWeapon: MonoBehaviour
 	public Image HUDIcon;
 
 	[Header("Gun type")]
-	public bool automaticWeapon = false;
+	public bool isAutomaticWeapon = false;
+	public bool isPumpActionWeapon = false;
+	private bool nextShell = false;
 	public float fireRate = 0.2f;
 	public float recoilStrength = 0.2f;
 	private float nextFire = 0.0f;
@@ -144,19 +146,6 @@ public class RangeWeapon: MonoBehaviour
 	}
 	public spawnpoints Spawnpoints;
 
-	[System.Serializable]
-	public class soundClips
-	{
-		public AudioClip shootSound;
-		public AudioClip takeOutSound;
-		public AudioClip reloadSoundOutOfAmmo;
-		public AudioClip reloadSoundAmmoLeft;
-		public AudioClip aimSound;
-	}
-	public soundClips SoundClips;
-
-	private bool soundHasPlayed = false;
-
 
 	private void Start () 
 	{
@@ -175,10 +164,6 @@ public class RangeWeapon: MonoBehaviour
 
 		//Weapon sway
 		initialSwayPosition = transform.localPosition;
-
-		//Set the shoot sound to audio source
-		audioSource.clip = SoundClips.shootSound;
-
 	}
 	
 	private void Update () 
@@ -192,14 +177,6 @@ public class RangeWeapon: MonoBehaviour
 			isAiming = true;
 
 			anim.SetBool ("Aim", true);
-
-			if (!soundHasPlayed) 
-			{
-				audioSource.clip = SoundClips.aimSound;
-				audioSource.Play ();
-	
-				soundHasPlayed = true;
-			}
 		} 
 		else 
 		{
@@ -207,7 +184,6 @@ public class RangeWeapon: MonoBehaviour
 			gunCamera.fieldOfView = Mathf.Lerp(gunCamera.fieldOfView, defaultFov,fovSpeed * Time.deltaTime);
 
 			isAiming = false;
-			soundHasPlayed = false;
 			anim.SetBool("Aim", false);
 
 		}
@@ -240,8 +216,8 @@ public class RangeWeapon: MonoBehaviour
 
 		//Shooting 
 		if (!outOfAmmo && !isReloading &&
-			(!automaticWeapon && Input.GetMouseButtonDown(0) ||
-			(automaticWeapon && Input.GetMouseButton(0))) &&
+			(!isAutomaticWeapon && Input.GetMouseButtonDown(0) ||
+			(isAutomaticWeapon && Input.GetMouseButton(0))) &&
 			Time.time > nextFire)
 		{
 			isShooting = true;
@@ -249,10 +225,6 @@ public class RangeWeapon: MonoBehaviour
 			anim.Play ("Fire", 0, 0f);
 			//Remove 1 bullet from ammo
 			ammoInMag -= 1;
-
-			// Play audio
-			audioSource.clip = SoundClips.shootSound;
-			audioSource.Play ();
 
 			//Light flash start
 			StartCoroutine(MuzzleFlashLight());
@@ -303,7 +275,8 @@ public class RangeWeapon: MonoBehaviour
 		}
 
 		//Reload 
-		if (Input.GetKeyDown (KeyCode.R) && !isReloading && ammoInMag != clipSize) 
+		if ((Input.GetKeyDown (KeyCode.R) && !isReloading && ammoInMag != clipSize && ammoInStorage > 0) ||
+			(isPumpActionWeapon && nextShell && !isReloading)) 
 			Reload ();
 
 
@@ -377,11 +350,9 @@ public class RangeWeapon: MonoBehaviour
 	//Reload
 	private void Reload () 
 	{
-		if (ammoInStorage > 0)
+		if(!isPumpActionWeapon)
 		{
-			anim.Play("Reload Out Of Ammo", 0, 0f);
-			audioSource.clip = SoundClips.reloadSoundOutOfAmmo;
-			audioSource.Play();
+			anim.Play("Reload", 0, 0f);
 
 			if (ammoInStorage + ammoInMag >= clipSize)
 			{
@@ -394,7 +365,30 @@ public class RangeWeapon: MonoBehaviour
 				ammoInMag += ammoInStorage;
 				ammoInStorage = 0;
 			}
+
 		}
+		else if (isPumpActionWeapon)
+		{
+			if (!nextShell)
+			{
+				anim.Play("Reload", 0, 0f);
+				isReloading = true;
+			}
+
+			if (!isReloading)
+			{
+				anim.Play("Insert Shell", 0, 0f);
+
+				ammoInStorage--;
+				ammoInMag++;
+			}
+
+			if (ammoInStorage > 0 && ammoInMag < clipSize)
+				nextShell = true;
+			else
+				nextShell = false;
+		}
+
 
 	}
 
@@ -416,7 +410,8 @@ public class RangeWeapon: MonoBehaviour
 	{
 		//Check if reloading
 		//Check both animations
-		if (anim.GetCurrentAnimatorStateInfo (0).IsName ("Reload Out Of Ammo"))
+		if (anim.GetCurrentAnimatorStateInfo(0).IsName("Reload") ||
+			anim.GetCurrentAnimatorStateInfo(0).IsName("Insert Shell"))
 		{
 			isReloading = true;
 		} 

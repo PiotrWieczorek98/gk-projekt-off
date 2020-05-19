@@ -10,15 +10,12 @@ public class RangeWeapon: MonoBehaviour
 	public Animator anim;
 
 	[Header("Cameras")]
-	//Cameras
 	public Camera gunCamera;
 	public Camera mainCamera;
 
 	[Header("Gun Camera Options")]
-	//How fast the camera field of view changes when aiming 
 	[Tooltip("How fast the camera field of view changes when aiming.")]
 	public float fovSpeed = 15.0f;
-	//Default camera field of view
 	[Tooltip("Default value for camera field of view (40 is recommended).")]
 	public float defaultFov = 40.0f;
 
@@ -28,14 +25,14 @@ public class RangeWeapon: MonoBehaviour
 	private string storedWeaponName;
 
 	[Header("Gun icon")]
-	//Gun icon
 	public Sprite gunIcon;
 	[Tooltip("Name of the object shown in the game UI.")]
 	public Image HUDIcon;
 
-	[Header("Gun type")]
+	[Header("Gun type (choose one)")]
 	public bool isAutomaticWeapon = false;
 	public bool isPumpActionWeapon = false;
+	// Used for shotgun reload mechanic
 	private bool nextShell = false;
 	public float fireRate = 0.2f;
 	public float recoilStrength = 0.2f;
@@ -177,7 +174,10 @@ public class RangeWeapon: MonoBehaviour
 			isAiming = true;
 
 			anim.SetBool ("Aim", true);
-		} 
+			// Force play animation to avoid transition delay
+			anim.Play("Aim In");
+
+		}
 		else 
 		{
 			//When right click is released
@@ -232,23 +232,24 @@ public class RangeWeapon: MonoBehaviour
 			if (!isAiming) //if not aiming
 			{
 				anim.Play ("Fire", 0, 0f);
-				muzzleParticles.Emit (1);
 
 				//Emit random amount of spark particles
-				sparkParticles.Emit (Random.Range (1, 6));
-
-			} 
-			else //if aiming
-			{
-				anim.Play ("Aim Fire", 0, 0f);
-					
-				//Emit random amount of spark particles
-				sparkParticles.Emit (Random.Range (1, 6));
-				//Light flash start
-				StartCoroutine (MuzzleFlashLight ());
+				sparkParticles.Emit(Random.Range (minSparkEmission, maxSparkEmission));
+				muzzleParticles.Emit(1);
+				StartCoroutine(MuzzleFlashLight());
 
 			}
-				
+			else //if aiming
+			{
+				anim.Play("Aim Fire", 0, 0f);
+
+				//Emit random amount of spark particles
+				sparkParticles.Emit(Random.Range(minSparkEmission, maxSparkEmission));
+				muzzleParticles.Emit(1);
+				StartCoroutine(MuzzleFlashLight());
+
+			}
+
 			//Spawn bullet at bullet spawnpoint
 			var bullet = Transform.Instantiate (
 				Prefabs.bulletPrefab,

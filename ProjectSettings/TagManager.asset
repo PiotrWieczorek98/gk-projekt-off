@@ -13,6 +13,7 @@ TagManager:
   - Metal
   - Dirt
   - Concrete
+  - Note
   layers:
   - Default
   - TransparentFX

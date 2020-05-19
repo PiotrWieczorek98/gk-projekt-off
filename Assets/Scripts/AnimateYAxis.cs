@@ -27,6 +27,5 @@ public class AnimateYAxis : MonoBehaviour
             moves = 0;
         }
         transform.position = new Vector3(transform.position.x, yPoint, transform.position.z);
-        //transform.position = new Vector3(transform.position.x, (yPoint + Mathf.PingPong(Time.time * transformSpeed, 0.2f)), transform.position.z);
     }
 }

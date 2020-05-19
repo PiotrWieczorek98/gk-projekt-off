@@ -5,7 +5,6 @@ using UnityEngine;
 public class FlashLightMechanics : MonoBehaviour
 {
     public bool enableFlashlight = false;
-    private bool toggleFlashlight = false;
     private Light flashlight;
     private KeyCode flashlightKey;
 
@@ -26,10 +25,7 @@ public class FlashLightMechanics : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(flashlightKey))
-        {
-            toggleFlashlight = !toggleFlashlight;
-            flashlight.enabled = toggleFlashlight;
-        }
+            flashlight.enabled = !flashlight.enabled;
     }
 
 

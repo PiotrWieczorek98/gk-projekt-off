@@ -4,25 +4,33 @@ using UnityEngine;
 
 public class FlashLightMechanics : MonoBehaviour
 {
-    public bool isFlashlightOn = false;
-    public bool flashlightDelay = false;
+    public bool enableFlashlight = false;
+    private bool toggleFlashlight = false;
+    private Light flashlight;
+    private KeyCode flashlightKey;
 
-    public GameObject flashlight;
-    // Update is called once per frame
+    void Start()
+    {
+        if (enableFlashlight)
+        {
+            flashlight = GetComponent<Light>();
+
+            if (PlayerPrefs.HasKey("Flashlight"))
+                flashlightKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Flashlight"));
+            else
+                flashlightKey = KeyCode.F;
+        }
+        else
+            this.gameObject.SetActive(false);
+    }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(flashlightKey))
         {
-            flashlightDelay = true;
-            isFlashlightOn = !isFlashlightOn;
-            flashlight.SetActive(isFlashlightOn);
-            StartCoroutine(FlashlightDelay());
+            toggleFlashlight = !toggleFlashlight;
+            flashlight.enabled = toggleFlashlight;
         }
     }
 
-    IEnumerator FlashlightDelay()
-    {
-        yield return new WaitForSeconds(0.25f);
-        flashlightDelay = false;
-    }
+
 }

@@ -171,11 +171,12 @@ public class RangeWeapon: MonoBehaviour
 		{
 
 			gunCamera.fieldOfView = Mathf.Lerp (gunCamera.fieldOfView, ironSightsAimFOV, fovSpeed * Time.deltaTime);
-			isAiming = true;
-
 			anim.SetBool ("Aim", true);
 			// Force play animation to avoid transition delay
-			anim.Play("Aim In");
+			if(!isAiming)
+				anim.Play("Aim In");
+
+			isAiming = true;
 
 		}
 		else 
@@ -204,7 +205,7 @@ public class RangeWeapon: MonoBehaviour
 			//Toggle bool
 			outOfAmmo = true;
 			//Auto reload if true
-			if (autoReload == true && !isReloading) 		
+			if (autoReload == true && !isReloading && ammoInStorage > 0) 		
 				Reload();	
 				
 		} 
@@ -220,9 +221,7 @@ public class RangeWeapon: MonoBehaviour
 			(isAutomaticWeapon && Input.GetMouseButton(0))) &&
 			Time.time > nextFire)
 		{
-			isShooting = true;
 			nextFire = Time.time + fireRate;
-			anim.Play ("Fire", 0, 0f);
 			//Remove 1 bullet from ammo
 			ammoInMag -= 1;
 
@@ -242,7 +241,6 @@ public class RangeWeapon: MonoBehaviour
 			else //if aiming
 			{
 				anim.Play("Aim Fire", 0, 0f);
-
 				//Emit random amount of spark particles
 				sparkParticles.Emit(Random.Range(minSparkEmission, maxSparkEmission));
 				muzzleParticles.Emit(1);
@@ -269,11 +267,16 @@ public class RangeWeapon: MonoBehaviour
 			Instantiate (Prefabs.casingPrefab, 
 				Spawnpoints.casingSpawnPoint.transform.position, 
 				Spawnpoints.casingSpawnPoint.transform.rotation);
+
+			// Weapon recoil
+			var randomNumberX = Random.Range(-recoilStrength * 2, 0);
+			var randomNumberY = Random.Range(-recoilStrength, recoilStrength);
+
+			var player = GameObject.FindGameObjectWithTag("Player");
+			player.GetComponent<PlayerMovement>().rotation.x += randomNumberX;
+			player.GetComponent<PlayerMovement>().rotation.y += randomNumberY;
 		}
-		else
-		{
-			isShooting = false;
-		}
+
 
 		//Reload 
 		if ((Input.GetKeyDown (KeyCode.R) && !isReloading && ammoInMag != clipSize && ammoInStorage > 0) ||
@@ -325,20 +328,6 @@ public class RangeWeapon: MonoBehaviour
 				(transform.localPosition, finalSwayPosition +
 				initialSwayPosition, Time.deltaTime * swaySmoothValue);
 		}
-
-		// Weapon recoil
-		if (isShooting)
-		{
-			var randomNumberX = Random.Range(-recoilStrength * 2, 0);
-			var randomNumberY = Random.Range(-recoilStrength, recoilStrength);
-
-			var player = GameObject.FindGameObjectWithTag("Player");
-			player.GetComponent<PlayerMovement>().rotation.x += randomNumberX;
-			player.GetComponent<PlayerMovement>().rotation.y += randomNumberY;
-
-		}
-
-
 
 		// Set icon
 		HUDIcon.sprite = gunIcon;
@@ -413,12 +402,15 @@ public class RangeWeapon: MonoBehaviour
 		//Check both animations
 		if (anim.GetCurrentAnimatorStateInfo(0).IsName("Reload") ||
 			anim.GetCurrentAnimatorStateInfo(0).IsName("Insert Shell"))
-		{
 			isReloading = true;
-		} 
 		else 
-		{
 			isReloading = false;
-		}
+
+
+		if (anim.GetCurrentAnimatorStateInfo(0).IsName("Fire") ||
+			anim.GetCurrentAnimatorStateInfo(0).IsName("AimFire"))
+			isShooting = true;
+		else
+			isShooting = false;
 	}
 }

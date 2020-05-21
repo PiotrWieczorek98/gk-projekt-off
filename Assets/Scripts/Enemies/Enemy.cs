@@ -21,9 +21,9 @@ public class Enemy : MonoBehaviour
         currentHP = maxHP;
         es = GetComponent<EnemyStates>();
         nma = GetComponent<NavMeshAgent>();
-        bc = GetComponent<BoxCollider>();
+        bc = transform.Find("Soldier Body").gameObject.GetComponent<BoxCollider>();
         rb = GetComponent<Rigidbody>();
-        vision = transform.Find("Vision").gameObject;
+        vision = transform.Find("Soldier Head").gameObject;
         anim = GetComponent<Animator>();
         source = GetComponent<AudioSource>();
     }
@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour
 
                 bc.center = new Vector3(0, -0.8f, 0);
                 bc.size = new Vector3(1f, 0.5f, 0.1f);
-                Physics.IgnoreCollision(GameObject.FindGameObjectWithTag("Player").GetComponent<Collider>(), GetComponent<Collider>());
+                Physics.IgnoreCollision(GameObject.FindGameObjectWithTag("Player").GetComponent<Collider>(), bc);
 
                 vision.SetActive(false);
             }

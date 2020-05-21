@@ -339,7 +339,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5679783166123260132}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5679783166123260133
 GameObject:
@@ -352,7 +352,6 @@ GameObject:
   - component: {fileID: 5679783166123260132}
   - component: {fileID: 5679783166123260142}
   - component: {fileID: 5679783166123260143}
-  - component: {fileID: 5679783166123260128}
   - component: {fileID: 5679783166123260129}
   - component: {fileID: 5679783166123260130}
   - component: {fileID: 5679783166123260131}
@@ -374,6 +373,7 @@ Transform:
   m_LocalPosition: {x: 34.7, y: 0.55, z: 37.17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 8873736287603799289}
   - {fileID: 5679783166319117514}
   - {fileID: 5679783166184450229}
   - {fileID: 5679783164650048710}
@@ -419,19 +419,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &5679783166123260128
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5679783166123260133}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.47000533, y: 1.8756638, z: 0.22845647}
-  m_Center: {x: -0.007817753, y: 0.8878319, z: 0.008608325}
 --- !u!114 &5679783166123260129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -618,7 +605,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5679783166123260132}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5679783166319117515
 GameObject:
@@ -630,8 +617,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5679783166319117514}
   - component: {fileID: 5679783166319117513}
+  - component: {fileID: 7814713399454913200}
   m_Layer: 9
-  m_Name: Vision
+  m_Name: Soldier Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -649,7 +637,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5679783166123260132}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5679783166319117513
 MonoBehaviour:
@@ -663,6 +651,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14ab62a55466a974b88ac5b24a92748e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!135 &7814713399454913200
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5679783166319117515}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.22
+  m_Center: {x: 0, y: -0.03, z: 0}
 --- !u!1 &6422837117418630831
 GameObject:
   m_ObjectHideFlags: 0
@@ -3305,7 +3306,7 @@ Transform:
   - {fileID: 6427055328338938435}
   - {fileID: 6426137815628176577}
   m_Father: {fileID: 5679783166123260132}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6424208331615801537
 GameObject:
@@ -3611,3 +3612,47 @@ Transform:
   m_Father: {fileID: 6426345546015751641}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 2.0960002, y: 20.916, z: 10.309}
+--- !u!1 &8235336698642941602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8873736287603799289}
+  - component: {fileID: 5274595089838084891}
+  m_Layer: 9
+  m_Name: Soldier Body
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8873736287603799289
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8235336698642941602}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5679783166123260132}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5274595089838084891
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8235336698642941602}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.55, y: 1.4, z: 0.4}
+  m_Center: {x: 0, y: 0.65711796, z: 0}

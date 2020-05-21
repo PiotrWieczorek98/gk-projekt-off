@@ -43,7 +43,7 @@ public class BulletScript : MonoBehaviour {
 		}
 
 		//If bullet collides with "Enemy" tag
-		if (collision.transform.tag == "Enemy" && this.gameObject.layer != LayerMask.NameToLayer("Enemy")) 
+		if (collision.collider.name == "Soldier Body" && this.gameObject.layer != LayerMask.NameToLayer("Enemy")) 
 		{
 			//Instantiate random impact prefab from array
 			Instantiate (bloodImpactPrefabs [Random.Range 
@@ -51,21 +51,37 @@ public class BulletScript : MonoBehaviour {
 				Quaternion.LookRotation (collision.contacts [0].normal));
 			//Destroy bullet object
 			Destroy(gameObject);
-			
+
 			// Deal damage
+			Debug.Log("body");
 			collision.transform.SendMessage("gotHit", damage, SendMessageOptions.DontRequireReceiver);
+
+		}
+		// Headshot
+		else if (collision.collider.name == "Soldier Head" && this.gameObject.layer != LayerMask.NameToLayer("Enemy"))
+		{
+			//Instantiate random impact prefab from array
+			Instantiate(bloodImpactPrefabs[Random.Range
+				(0, bloodImpactPrefabs.Length)], transform.position,
+				Quaternion.LookRotation(collision.contacts[0].normal));
+			//Destroy bullet object
+			Destroy(gameObject);
+
+			// Deal damage
+			Debug.Log("head");
+			collision.transform.SendMessage("gotHit", damage * 2, SendMessageOptions.DontRequireReceiver);
 
 		}
 
 		//If bullet collides with "Player" tag
-		if (collision.transform.tag == "Player" && this.gameObject.layer != LayerMask.NameToLayer("Player"))
+		else if (collision.transform.tag == "Player" && this.gameObject.layer != LayerMask.NameToLayer("Player"))
 		{
 			// Deal damage
 			collision.transform.SendMessage("gotHit", damage, SendMessageOptions.DontRequireReceiver);
 		}
 
 		//If bullet collides with "Metal" tag
-		if (collision.transform.tag == "Metal") 
+		else if (collision.transform.tag == "Metal") 
 		{
 			//Instantiate random impact prefab from array
 			Instantiate (metalImpactPrefabs [Random.Range 
@@ -76,7 +92,7 @@ public class BulletScript : MonoBehaviour {
 		}
 
 		//If bullet collides with "Dirt" tag
-		if (collision.transform.tag == "Dirt") 
+		else if (collision.transform.tag == "Dirt") 
 		{
 			//Instantiate random impact prefab from array
 			Instantiate (dirtImpactPrefabs [Random.Range 
@@ -87,7 +103,7 @@ public class BulletScript : MonoBehaviour {
 		}
 
 		//If bullet collides with "Concrete" tag
-		if (collision.transform.tag == "Concrete") 
+		else if (collision.transform.tag == "Concrete") 
 		{
 			//Instantiate random impact prefab from array
 			Instantiate (concreteImpactPrefabs [Random.Range 
@@ -98,7 +114,7 @@ public class BulletScript : MonoBehaviour {
 		}
 
 		//If bullet collides with "Target" tag
-		if (collision.transform.tag == "Target") 
+		else if (collision.transform.tag == "Target") 
 		{
 			//Toggle "isHit" on target object
 			collision.transform.gameObject.GetComponent
@@ -106,9 +122,9 @@ public class BulletScript : MonoBehaviour {
 			//Destroy bullet object
 			Destroy(gameObject);
 		}
-			
+
 		//If bullet collides with "ExplosiveBarrel" tag
-		if (collision.transform.tag == "ExplosiveBarrel") 
+		else if (collision.transform.tag == "ExplosiveBarrel") 
 		{
 			//Toggle "explode" on explosive barrel object
 			collision.transform.gameObject.GetComponent
@@ -118,7 +134,7 @@ public class BulletScript : MonoBehaviour {
 		}
 
 		//If bullet collides with "GasTank" tag
-		if (collision.transform.tag == "GasTank") 
+		else if (collision.transform.tag == "GasTank") 
 		{
 			//Toggle "isHit" on gas tank object
 			collision.transform.gameObject.GetComponent

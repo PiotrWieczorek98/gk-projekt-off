@@ -6,6 +6,11 @@ public class KeyPickUp : MonoBehaviour
 {
     public AudioClip pickUpSound;
     public FlashScreen flashScreen;
+    public ShowDoor showDoor;
+    public ShowDoor showDoorFrame;
+    public ShowDoor showDoorCube;
+    public ShowDoor showDoorSignCube;
+    public ShowDoor showDoorSignPlane;
 
     AudioSource source;
 
@@ -18,6 +23,11 @@ public class KeyPickUp : MonoBehaviour
 
             source.PlayOneShot(pickUpSound);
             Destroy(this.gameObject);
+            showDoor.TurnOnDoor();
+            showDoorFrame.TurnOnDoor();
+            showDoorCube.TurnOnDoor();
+            showDoorSignCube.TurnOnDoor();
+            showDoorSignPlane.TurnOnDoor();
         }
     }
 }

@@ -6,11 +6,7 @@ using UnityEngine.UI;
 
 public class NotePickUp : MonoBehaviour
 {
-    int iterator = 0;
     public Image noteImg;
-
-    public AudioClip interactionSound;
-    private AudioSource source;
 
     // Start is called before the first frame update
     void Start()
@@ -21,35 +17,26 @@ public class NotePickUp : MonoBehaviour
     public void ShowNoteImg()
     {
         noteImg.enabled = true;
-        GetComponent<AudioSource>().PlayOneShot(interactionSound);
     }
     
     public void HideNoteImg()
     {
         noteImg.enabled = false;
-        GetComponent<AudioSource>().PlayOneShot(interactionSound);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            source = other.GetComponent<AudioSource>();
             ShowNoteImg();
         }
     }
-
-    private void Update()
+    
+    private void OnTriggerExit(Collider other)
     {
-        if(noteImg.enabled)
+        if (other.CompareTag("Player"))
         {
-            iterator++;
-            if(iterator > 700)
-            {
-                HideNoteImg();
-                Destroy(this.gameObject);
-            }
-
+            HideNoteImg();
         }
     }
 }

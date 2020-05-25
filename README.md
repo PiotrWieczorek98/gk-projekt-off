@@ -19,7 +19,7 @@
 6. __If you have some problems with versions of files after that, that's your problem :).__
 
 ## Things to do:
-- [ ] Create menu.
+- [x] Create menu.
 - [ ] Create scenes.
      - [ ] Start scene.
      - [ ] Scenes in between.

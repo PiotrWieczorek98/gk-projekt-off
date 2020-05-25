@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class ShowDoor : MonoBehaviour
 {
-    private MeshRenderer meshRenderer;
+    private Transform keyUnlockingThisDoor;
 
     public void Start()
     {
-        meshRenderer = gameObject.GetComponent<MeshRenderer>();
-        meshRenderer.enabled = false;
+
     }
 
     public void TurnOnDoor()
     {
-        meshRenderer.enabled = true;
+
     }
 }

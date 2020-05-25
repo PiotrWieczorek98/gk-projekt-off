@@ -5,63 +5,30 @@ using UnityEngine;
 
 public class Opener : MonoBehaviour
 {
-    //current state of object
-    private bool isOpen = false;
-    public Animator animator;
-    private bool inTrigger = false;
+    private bool isOpen;
+    private Animator animator;
 
 
-    // Start is called before the first frame update
     void Start()
     {
-        //obj = (GameObject)gameObject.GetComponent<GameObject>;
         animator = (Animator)this.GetComponent<Animator>();
-        Debug.Log("started");
-        //time = 1f;
+        isOpen = animator.GetBool("state");
+
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        //time += Time.deltaTime;
-        //if (Input.GetKeyDown(KeyCode.E)&&time > 0)
-        //{
-        //    Debug.Log("E");
-        //    if (!isOpen)
-        //    {
-        //        animator.SetTrigger("OpenDoor");
-        //        isOpen = true;
-        //    }
-        //    else
-        //    {
-        //        animator.SetTrigger("CloseDoor");
-        //        isOpen = false;
-        //    }
-        //    time -= Time.deltaTime;
-        //}
-        //if (time < 0)
-        //    time = 1f;
-        inTrigger = true;
-    }
 
-    private void OnTriggerExit(Collider other)
+    void OnTriggerStay(Collider other)
     {
-        inTrigger = false;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.E) && inTrigger)
+        if (Input.GetKeyDown(KeyCode.E) && other.CompareTag("Player") )
         {
-            Debug.Log("E");
             if (!isOpen)
             {
-                animator.SetTrigger("OpenDoor");
+                animator.SetBool("state", true);
                 isOpen = true;
             }
             else
             {
-                animator.SetTrigger("CloseDoor");
+                animator.SetBool("state", false);
                 isOpen = false;
             }
             //time -= Time.deltaTime;

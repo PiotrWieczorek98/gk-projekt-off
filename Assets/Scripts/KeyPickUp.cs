@@ -6,13 +6,17 @@ public class KeyPickUp : MonoBehaviour
 {
     public AudioClip pickUpSound;
     public FlashScreen flashScreen;
-    public ShowDoor showDoor;
-    public ShowDoor showDoorFrame;
-    public ShowDoor showDoorCube;
-    public ShowDoor showDoorSignCube;
-    public ShowDoor showDoorSignPlane;
+    [Tooltip("Door unlocked by this key")]
+    public Transform doorObject;
 
     AudioSource source;
+    void Start()
+    {
+        foreach (Transform child in doorObject.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -22,12 +26,12 @@ public class KeyPickUp : MonoBehaviour
             flashScreen.flash("gold");
 
             source.PlayOneShot(pickUpSound);
+            foreach (Transform child in doorObject.transform)
+            {
+                child.gameObject.SetActive(true);
+            }
+
             Destroy(this.gameObject);
-            showDoor.TurnOnDoor();
-            showDoorFrame.TurnOnDoor();
-            showDoorCube.TurnOnDoor();
-            showDoorSignCube.TurnOnDoor();
-            showDoorSignPlane.TurnOnDoor();
         }
     }
 }

@@ -73,7 +73,6 @@ public class RangeWeapon: MonoBehaviour
 
 	private bool isRunning;
 	private bool isAiming;
-	private bool isShooting = false;
 
 	//How much ammo is currently left
 	private int ammoInMag;
@@ -405,12 +404,5 @@ public class RangeWeapon: MonoBehaviour
 			isReloading = true;
 		else 
 			isReloading = false;
-
-
-		if (anim.GetCurrentAnimatorStateInfo(0).IsName("Fire") ||
-			anim.GetCurrentAnimatorStateInfo(0).IsName("AimFire"))
-			isShooting = true;
-		else
-			isShooting = false;
 	}
 }

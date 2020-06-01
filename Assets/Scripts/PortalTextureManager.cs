@@ -5,18 +5,18 @@ using UnityEngine;
 public class PortalTextureManager : MonoBehaviour
 {
 
-	public Camera camera;
+	public Camera cam;
 	public Material cameraMat;
 
 	// Use this for initialization
 	void Start()
 	{
-		if (camera.targetTexture != null)
+		if (cam.targetTexture != null)
 		{
-			camera.targetTexture.Release();
+			cam.targetTexture.Release();
 		}
-		camera.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
-		cameraMat.mainTexture = camera.targetTexture;
+		cam.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
+		cameraMat.mainTexture = cam.targetTexture;
 
 	}
 

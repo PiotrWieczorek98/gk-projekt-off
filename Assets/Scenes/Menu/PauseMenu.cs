@@ -10,7 +10,7 @@ public class PauseMenu : MonoBehaviour
 
     private void Start()
     {
-        Screen.lockCursor = false;
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = true;
     }
 

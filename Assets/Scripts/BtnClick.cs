@@ -1,18 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BtnClick : MonoBehaviour
 {
-    private bool isClicked;
-    private Animator animator;
+    private bool isClicked = false;
+    public int iterator = 0;
+    public Image endScreen;
+    //private Animator animator;
 
 
     void Start()
     {
-        animator = (Animator)this.GetComponent<Animator>();
-        isClicked = animator.GetBool("state");
-
+        //animator = (Animator)this.GetComponent<Animator>();
+        //isClicked = animator.GetBool("state");
+        endScreen.enabled = false;
     }
 
 
@@ -22,10 +25,16 @@ public class BtnClick : MonoBehaviour
         {
             if (!isClicked)
             {
-                animator.SetBool("state", true);
+                //animator.SetBool("state", true);
                 isClicked = true;
             }
             //time -= Time.deltaTime;
         }
+
+        if (isClicked)
+            iterator++;
+
+        if (iterator == 300)
+            endScreen.enabled = true;
     }
 }

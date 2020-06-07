@@ -844,11 +844,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d56e4d2f22be5a145b214aab30d39b7a, type: 3}
-<<<<<<< HEAD
 --- !u!1 &193623263
-=======
---- !u!1 &181180422
->>>>>>> 42e2c4663b2dd1e87681c3ef78cf00e751d44058
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -856,35 +852,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< HEAD
   - component: {fileID: 193623264}
   - component: {fileID: 193623267}
   - component: {fileID: 193623266}
   - component: {fileID: 193623265}
   m_Layer: 5
   m_Name: ResumeButton
-=======
-  - component: {fileID: 181180423}
-  m_Layer: 0
-  m_Name: 0 (3)
->>>>>>> 42e2c4663b2dd1e87681c3ef78cf00e751d44058
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< HEAD
 --- !u!224 &193623264
 RectTransform:
-=======
---- !u!4 &181180423
-Transform:
->>>>>>> 42e2c4663b2dd1e87681c3ef78cf00e751d44058
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
   m_GameObject: {fileID: 193623263}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -992,16 +976,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 193623263}
   m_CullTransparentMesh: 0
-=======
-  m_GameObject: {fileID: 181180422}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.22, y: 0, z: -19.67}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 713009020}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
->>>>>>> 42e2c4663b2dd1e87681c3ef78cf00e751d44058
 --- !u!1001 &224945686
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ public class BtnClick : MonoBehaviour
     private bool isClicked = false;
     public int iterator = 0;
     public Image endScreen;
+    public Button endButton;
     //private Animator animator;
 
 
@@ -16,6 +17,7 @@ public class BtnClick : MonoBehaviour
         //animator = (Animator)this.GetComponent<Animator>();
         //isClicked = animator.GetBool("state");
         endScreen.enabled = false;
+        endButton.enabled = false;
     }
 
 
@@ -35,6 +37,10 @@ public class BtnClick : MonoBehaviour
             iterator++;
 
         if (iterator == 300)
+        {
             endScreen.enabled = true;
+            endButton.enabled = true;
+        }
+            
     }
 }

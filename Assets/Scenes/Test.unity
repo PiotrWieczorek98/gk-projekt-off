@@ -1186,6 +1186,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 454f30ae64ad0a140944971932aefcd3, type: 3}
+--- !u!1 &1221712328 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7217671616402734251, guid: 9c50d3b02a25ddb46829daaeff8a8e69,
+    type: 3}
+  m_PrefabInstance: {fileID: 3881049638863359057}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1221712330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1221712328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b56935412121f1d45910c101f84fed41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1277100325 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8159461086942206364, guid: 454f30ae64ad0a140944971932aefcd3,
@@ -2523,6 +2541,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1660630955811208987, guid: 9c50d3b02a25ddb46829daaeff8a8e69,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c50d3b02a25ddb46829daaeff8a8e69, type: 3}
 --- !u!1001 &4061588627966546279
@@ -3020,11 +3043,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8235336698642941602, guid: 7e4db3ab3a99c4d45a336510a9b2cd6c,
-        type: 3}
-      propertyPath: m_TagString
-      value: Enemy
-      objectReference: {fileID: 0}
     - target: {fileID: 5679783166123260129, guid: 7e4db3ab3a99c4d45a336510a9b2cd6c,
         type: 3}
       propertyPath: chaseTarget
@@ -3071,6 +3089,11 @@ PrefabInstance:
       value: Soldier Head
       objectReference: {fileID: 0}
     - target: {fileID: 6424203206140162609, guid: 7e4db3ab3a99c4d45a336510a9b2cd6c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8235336698642941602, guid: 7e4db3ab3a99c4d45a336510a9b2cd6c,
         type: 3}
       propertyPath: m_TagString
       value: Enemy

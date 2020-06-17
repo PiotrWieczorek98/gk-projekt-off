@@ -617,6 +617,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1103496161}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &81981641 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 613520616337864863, guid: d770d7c80f2ef8d448ed46a70ad2b830,
+    type: 3}
+  m_PrefabInstance: {fileID: 1103496161}
+  m_PrefabAsset: {fileID: 0}
 --- !u!64 &81981644
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -645,7 +651,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iterator: 0
   endScreen: {fileID: 1668586252}
-  endButton: {fileID: 278548646}
 --- !u!1001 &92450330
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1310,17 +1315,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 278548644}
-  m_LocalRotation: {x: -0, y: -0.000000029802315, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -40.823}
-  m_LocalScale: {x: 0.08618136, y: 0.17700954, z: 1.1063102}
+  m_LocalRotation: {x: 0.062171966, y: -0.7043683, z: -0.7043683, w: 0.062171966}
+  m_LocalPosition: {x: 0, y: 0, z: 18.766132}
+  m_LocalScale: {x: 0.09876975, y: 0.16913162, z: 0.09876974}
   m_Children:
   - {fileID: 566468109}
-  m_Father: {fileID: 1668586254}
+  m_Father: {fileID: 81981641}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000019073, y: -36.9}
+  m_AnchoredPosition: {x: 1.8374841, y: -52.09268}
   m_SizeDelta: {x: 125.42, y: 52.38}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &278548646
@@ -1976,13 +1981,13 @@ MonoBehaviour:
   m_margin: {x: 33.09561, y: 0, z: 22.200378, w: -10.173355}
   m_textInfo:
     textComponent: {fileID: 566468110}
-    characterCount: 4
+    characterCount: 0
     spriteCount: 0
     spaceCount: 0
-    wordCount: 1
+    wordCount: 0
     linkCount: 0
-    lineCount: 1
-    pageCount: 1
+    lineCount: 0
+    pageCount: 0
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
@@ -5586,14 +5591,13 @@ GameObject:
   - component: {fileID: 1668586254}
   - component: {fileID: 1668586253}
   - component: {fileID: 1668586252}
-  - component: {fileID: 1668586255}
   m_Layer: 5
   m_Name: EndScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1668586252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5641,8 +5645,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 12.837, y: 6.25, z: 1}
-  m_Children:
-  - {fileID: 278548645}
+  m_Children: []
   m_Father: {fileID: 400346333}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5651,18 +5654,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 85}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1668586255
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1668586251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d67ae76f2ae4e440bbbbc560b582846, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1678843750
 GameObject:
   m_ObjectHideFlags: 0

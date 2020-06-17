@@ -8,22 +8,22 @@ public class BtnClick : MonoBehaviour
     private bool isClicked = false;
     public int iterator = 0;
     public Image endScreen;
-    public Button endButton;
-    //private Animator animator;
+    // public Button endButton;
+    private Animator animator;
 
 
     void Start()
     {
-        //animator = (Animator)this.GetComponent<Animator>();
-        //isClicked = animator.GetBool("state");
+        ////animator = (Animator)this.GetComponent<Animator>();
+        isClicked = animator.GetBool("state");
         endScreen.enabled = false;
-        endButton.enabled = false;
+        //endButton.enabled = false;
+        //uiObject.SetActive(false);
     }
-
 
     void OnTriggerStay(Collider other)
     {
-        if (Input.GetKeyDown(KeyCode.E) && other.CompareTag("Player"))
+        if (Input.GetKeyDown(KeyCode.E) && other.gameObject.tag == "Player")
         {
             if (!isClicked)
             {
@@ -38,8 +38,9 @@ public class BtnClick : MonoBehaviour
 
         if (iterator == 300)
         {
-            endScreen.enabled = true;
-            endButton.enabled = true;
+             endScreen.enabled = true;
+            //endButton.enabled = true;
+
         }
             
     }
